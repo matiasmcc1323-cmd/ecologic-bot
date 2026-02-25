@@ -10,6 +10,16 @@ bot = commands.Bot(command_prefix = "/", intents = intents)
 @bot.event
 async def on_ready():
     print(f"We have logged in as {bot.user}")
+    canal = bot.get_channel(1468742078786703383)
+    if canal:
+        await canal.send(
+            "Comandos disponibles\n"
+            "/how_to_recicle\n"
+            "/eco_fact\n"
+            "/eco_tip\n"
+            "/recycling_bin\n"
+            'Usa "/how_to_recicle lista" y "/recycling_bin lista" para ver sus listas'
+        )
 
 @bot.command()
 async def how_to_recicle(ctx, *, material):
@@ -51,6 +61,42 @@ async def eco_fact(ctx):
     ]
     fact = random.choice(listoffacts)
     await ctx.send(fact)
-    
 
-bot.run('Token')
+@bot.command()
+async def eco_tip(ctx):
+    tips = [
+    "Lleva una botella reutilizable para reducir el uso de plástico.",
+    "Apaga las luces cuando salgas de una habitación.",
+    "Desconecta los cargadores cuando no los estés usando.",
+    "Usa bolsas reutilizables en lugar de bolsas plásticas.",
+    "Cierra el grifo mientras te cepillas los dientes para ahorrar agua.",
+    "Reutiliza hojas de papel antes de desecharlas.",
+    "Prefiere caminar o usar bicicleta en trayectos cortos.",
+    "Compra solo lo necesario para evitar desperdicios.",
+    "Separa los residuos en casa para facilitar el reciclaje.",
+     "Evita productos con exceso de empaques."
+    ]
+        
+    tip = random.choice(tips)
+    await ctx.send(tip)
+        
+@bot.command()
+async def recycling_bin(ctx, *, color):
+    bins = {
+        "azul": "El tacho azul es para papel y carton",
+        "verde": "El tacho verde es para botellas y envases de vidrio",
+        "amarillo": "El tacho amarillo es para plasticos, latas y envases",
+        "marron": "El tacho marron es para residuos organicos",
+        "negro": "El tacho negro es para basura no reciclable",
+        "gris": "El tacho gris es para residuos no reciclables",
+        "rojo": "El tacho rojo es para residuos peligrosos"
+    }
+    
+    if color in bins:
+        await ctx.send(bins[color])
+    elif color == "lista":
+        await ctx.send("Los colores de los cual tengo informacion son: azul, verde, amarillo, marron, negro, gris, rojo")
+    else:
+        await ctx.send("No tengo información sobre ese color")
+
+bot.run('token')
